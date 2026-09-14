@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from '../../context/ThemeContext';
 import { PaymentsStackParamList } from '../../types';
-import { formatCurrency, formatDate, formatTime } from '../../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
 import { Spacing, BorderRadius, Typography } from '../../constants';
 
 type PaymentSuccessNavProp = NativeStackNavigationProp<PaymentsStackParamList, 'PaymentSuccess'>;
@@ -30,7 +30,7 @@ const PaymentSuccessScreen: React.FC = () => {
   });
 
   const handleDone = () => {
-    navigation.getParent()?.navigate('HomeTab', { screen: 'Dashboard' });
+    navigation.getParent()?.navigate('Home', { screen: 'Dashboard' });
   };
 
   const handleSendAnother = () => {

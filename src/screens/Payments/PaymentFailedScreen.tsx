@@ -22,7 +22,7 @@ const PaymentFailedScreen: React.FC = () => {
   };
 
   const handleGoBack = () => {
-    navigation.getParent()?.navigate('HomeTab', { screen: 'Dashboard' });
+    navigation.getParent()?.navigate('Home', { screen: 'Dashboard' });
   };
 
   return (

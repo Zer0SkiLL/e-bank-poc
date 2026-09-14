@@ -24,14 +24,17 @@ const TransactionsStack = createNativeStackNavigator();
 const PaymentsStack = createNativeStackNavigator();
 const SettingsStackNav = createNativeStackNavigator();
 
+/** Shared screen options to hide headers in stack navigators */
 const screenOptions = { headerShown: false };
 
+/** Dashboard tab stack navigator */
 const DashboardStackScreen = () => (
   <DashboardStack.Navigator screenOptions={screenOptions}>
     <DashboardStack.Screen name="Dashboard" component={DashboardScreen} />
   </DashboardStack.Navigator>
 );
 
+/** Accounts tab stack navigator */
 const AccountsStackScreen = () => (
   <AccountsStack.Navigator screenOptions={screenOptions}>
     <AccountsStack.Screen name="AccountList" component={AccountListScreen} />
@@ -39,6 +42,7 @@ const AccountsStackScreen = () => (
   </AccountsStack.Navigator>
 );
 
+/** Transactions tab stack navigator */
 const TransactionsStackScreen = () => (
   <TransactionsStack.Navigator screenOptions={screenOptions}>
     <TransactionsStack.Screen name="TransactionList" component={TransactionListScreen} />
@@ -46,6 +50,7 @@ const TransactionsStackScreen = () => (
   </TransactionsStack.Navigator>
 );
 
+/** Payments tab stack navigator */
 const PaymentsStackScreen = () => (
   <PaymentsStack.Navigator screenOptions={screenOptions}>
     <PaymentsStack.Screen name="SendMoney" component={SendMoneyScreen} />
@@ -55,12 +60,17 @@ const PaymentsStackScreen = () => (
   </PaymentsStack.Navigator>
 );
 
+/** Settings tab stack navigator */
 const SettingsStackScreen = () => (
   <SettingsStackNav.Navigator screenOptions={screenOptions}>
     <SettingsStackNav.Screen name="SettingsMain" component={SettingsScreen} />
   </SettingsStackNav.Navigator>
 );
 
+/**
+ * Main tab navigator with 5 tabs: Home, Accounts, Payments, Transactions, Settings.
+ * The Payments tab features an elevated circular icon for emphasis.
+ */
 const MainTabs: React.FC = () => {
   const { colors } = useTheme();
 
@@ -97,10 +107,19 @@ const MainTabs: React.FC = () => {
     >
       <Tab.Screen name="Home" component={DashboardStackScreen} />
       <Tab.Screen name="Accounts" component={AccountsStackScreen} />
-      <Tab.Screen name="Payments" component={PaymentsStackScreen}
+      <Tab.Screen
+        name="Payments"
+        component={PaymentsStackScreen}
         options={{
-          tabBarIcon: ({ focused, size }) => (
-            <View style={[styles.paymentsIcon, { backgroundColor: focused ? colors.primary : colors.tabInactive, width: 48, height: 48, borderRadius: 24, justifyContent: 'center', alignItems: 'center', marginBottom: 15 }]}>
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={[
+                styles.paymentsIconContainer,
+                {
+                  backgroundColor: focused ? colors.primary : colors.tabInactive,
+                },
+              ]}
+            >
               <Feather name="send" size={22} color="#FFFFFF" />
             </View>
           ),
@@ -113,7 +132,14 @@ const MainTabs: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  paymentsIcon: {},
+  paymentsIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
 });
 
 export default MainTabs;

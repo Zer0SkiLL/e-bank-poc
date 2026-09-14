@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '../../context/ThemeContext';
 import { accountService } from '../../services/accountService';
 import { Account, AccountsStackParamList } from '../../types';
-import { formatCurrency } from '../../utils/formatters';
 import { Spacing, Typography } from '../../constants';
 
 import AccountCard from '../../components/AccountCard';

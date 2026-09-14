@@ -17,7 +17,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { accountService } from '../../services/accountService';
 import { paymentService } from '../../services/paymentService';
 import { Account, Recipient, PaymentsStackParamList } from '../../types';
-import { formatCurrency, formatDate } from '../../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
 import { Spacing, BorderRadius, Typography } from '../../constants';
 
 import LoadingSpinner from '../../components/LoadingSpinner';
