@@ -15,7 +15,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ totalBalance, accountCount })
   const [isMasked, setIsMasked] = useState(false);
 
   return (
-    <View style={[styles.card, Shadows.lg]}>
+    <View style={[styles.card, { backgroundColor: colors.primary }, Shadows.lg]}>
       <View style={styles.header}>
         <Text style={styles.label}>Total Balance</Text>
         <TouchableOpacity
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.sm,
     padding: Spacing.xl,
     borderRadius: BorderRadius.xl,
-    backgroundColor: '#6C63FF',
   },
   header: {
     flexDirection: 'row',

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 
 const PinEntryScreen: React.FC = () => {
   const { colors } = useTheme();
   const { verifyPin } = useAuth();
+  const navigation = useNavigation();
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
 
@@ -91,7 +93,7 @@ const PinEntryScreen: React.FC = () => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
-        <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Feather name="arrow-left" size={24} color={colors.text} />
         </TouchableOpacity>
 

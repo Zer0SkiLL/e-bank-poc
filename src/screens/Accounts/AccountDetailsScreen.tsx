@@ -68,7 +68,10 @@ const AccountDetailsScreen: React.FC = () => {
   };
 
   const handleTransactionPress = (transaction: Transaction) => {
-    // Placeholder - will be handled in Transactions phase
+    const parent = navigation.getParent();
+    if (parent) {
+      parent.navigate('Transactions', { screen: 'TransactionDetail', params: { transaction } });
+    }
   };
 
   const handleSendMoney = () => {

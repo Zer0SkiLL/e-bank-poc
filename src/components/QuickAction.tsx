@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 import { Spacing, BorderRadius, Typography } from '../constants';
@@ -15,14 +15,16 @@ const QuickAction: React.FC<QuickActionProps> = ({ icon, label, color, onPress }
   const { colors } = useTheme();
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.7}>
-      <TouchableOpacity
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
+      <View
         style={[styles.iconCircle, { backgroundColor: color + '15' }]}
-        onPress={onPress}
-        activeOpacity={0.7}
       >
         <Feather name={icon} size={22} color={color} />
-      </TouchableOpacity>
+      </View>
       <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
     </TouchableOpacity>
   );

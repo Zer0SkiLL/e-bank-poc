@@ -6,6 +6,7 @@ import {
   RefreshControl,
   FlatList,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -74,7 +75,10 @@ const DashboardScreen: React.FC = () => {
   };
 
   const handleTransactionPress = (transaction: Transaction) => {
-    // Placeholder - transaction detail navigation will be handled in later phase
+    const parent = navigation.getParent();
+    if (parent) {
+      parent.navigate('Transactions', { screen: 'TransactionDetail', params: { transaction } });
+    }
   };
 
   if (isLoading) {
@@ -120,25 +124,39 @@ const DashboardScreen: React.FC = () => {
             icon="send"
             label="Send"
             color="#6C63FF"
-            onPress={() => {}}
+            onPress={() => {
+              const parent = navigation.getParent();
+              if (parent) {
+                parent.navigate('Payments', { screen: 'SendMoney' });
+              }
+            }}
           />
           <QuickAction
             icon="download"
             label="Receive"
             color="#00C9A7"
-            onPress={() => {}}
+            onPress={() => {
+              Alert.alert('Receive', 'Share your account details to receive money.');
+            }}
           />
           <QuickAction
             icon="credit-card"
             label="Pay"
             color="#F59E0B"
-            onPress={() => {}}
+            onPress={() => {
+              const parent = navigation.getParent();
+              if (parent) {
+                parent.navigate('Payments');
+              }
+            }}
           />
           <QuickAction
             icon="maximize"
             label="Scan"
             color="#8B5CF6"
-            onPress={() => {}}
+            onPress={() => {
+              Alert.alert('Scan', 'QR Scanner coming soon.');
+            }}
           />
         </View>
 

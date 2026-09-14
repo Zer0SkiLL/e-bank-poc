@@ -46,7 +46,9 @@ export const transactionService = {
     }
 
     filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    return filtered.slice(0, page * limit);
+    const start = (page - 1) * limit;
+    const end = page * limit;
+    return filtered.slice(start, end);
   },
 
   /**

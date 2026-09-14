@@ -9,11 +9,11 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  HomeTab: NavigatorScreenParams<DashboardStackParamList>;
-  AccountsTab: NavigatorScreenParams<AccountsStackParamList>;
-  PaymentsTab: NavigatorScreenParams<PaymentsStackParamList>;
-  TransactionsTab: NavigatorScreenParams<TransactionsStackParamList>;
-  SettingsTab: NavigatorScreenParams<SettingsStackParamList>;
+  Home: NavigatorScreenParams<DashboardStackParamList>;
+  Accounts: NavigatorScreenParams<AccountsStackParamList>;
+  Payments: NavigatorScreenParams<PaymentsStackParamList>;
+  Transactions: NavigatorScreenParams<TransactionsStackParamList>;
+  Settings: NavigatorScreenParams<SettingsStackParamList>;
 };
 
 export type DashboardStackParamList = {
@@ -47,7 +47,6 @@ export type PaymentsStackParamList = {
   PaymentFailed: {
     message: string;
   };
-  QRScanner: undefined;
 };
 
 export type SettingsStackParamList = {
