@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "NeoBank",
+    "slug": "e-bank-poc",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#6C63FF"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ebank.poc"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#6C63FF"
+      },
+      "package": "com.ebank.poc"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-secure-store", "expo-local-authentication"]
+  }
+}
