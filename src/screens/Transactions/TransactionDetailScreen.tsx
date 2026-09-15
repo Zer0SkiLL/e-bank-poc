@@ -159,7 +159,7 @@ const TransactionDetailScreen: React.FC = () => {
   );
 };
 
-const DetailRow: React.FC<{ label: string; value: string; colors: any }> = ({
+const DetailRow: React.FC<{ label: string; value: string; colors: Record<string, string> }> = ({
   label,
   value,
   colors,

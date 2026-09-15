@@ -17,7 +17,7 @@ import { accountService } from '../../services/accountService';
 import { transactionService } from '../../services/transactionService';
 import { Account, Transaction, DashboardStackParamList } from '../../types';
 import { getGreeting } from '../../utils/formatters';
-import { Spacing, Typography } from '../../constants';
+import { Spacing, Typography, BorderRadius } from '../../constants';
 
 import BalanceCard from '../../components/BalanceCard';
 import QuickAction from '../../components/QuickAction';
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   transactionsCard: {
     marginHorizontal: Spacing.base,
-    borderRadius: 14,
+    borderRadius: BorderRadius.lg,
     overflow: 'hidden',
   },
   bottomPadding: {

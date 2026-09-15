@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
+import { authService } from '../../services/authService';
 
 const PinEntryScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -41,7 +42,14 @@ const PinEntryScreen: React.FC = () => {
   };
 
   const handleBiometric = async () => {
-    Alert.alert('Biometric', 'Biometric authentication would proceed here.');
+    const success = await authService.authenticateWithBiometrics();
+    if (success) {
+      // Biometric auth succeeded - in a real app this would verify identity
+      // For this POC, just show success and navigate
+      Alert.alert('Success', 'Biometric authentication successful', [
+        { text: 'OK' }
+      ]);
+    }
   };
 
   const renderDots = () => {
