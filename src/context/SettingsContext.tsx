@@ -10,13 +10,13 @@ export interface NotificationSettings {
 export interface SecuritySettings {
   biometricEnabled: boolean;
   pinEnabled: boolean;
-  autoLockTimeout: number; // minutes, 0 = disabled
+  autoLockTimeout: number;
 }
 
 export interface DisplaySettings {
   themePreference: 'light' | 'dark' | 'system';
   fontSize: 'small' | 'medium' | 'large';
-  currencyFormat: string; // ISO 4217 currency code
+  currencyFormat: string;
 }
 
 export interface AppSettings {
@@ -67,97 +67,104 @@ const DEFAULT_SETTINGS: AllSettings = {
   },
 };
 
+function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial<T>): T {
+  const result = { ...target };
+  for (const key in source) {
+    if (
+      source[key] &&
+      typeof source[key] === 'object' &&
+      !Array.isArray(source[key]) &&
+      target[key] &&
+      typeof target[key] === 'object'
+    ) {
+      (result as Record<string, unknown>)[key] = deepMerge(
+        target[key] as Record<string, unknown>,
+        source[key] as Record<string, unknown>
+      );
+    } else if (source[key] !== undefined) {
+      result[key] = source[key] as T[Extract<keyof T, string>];
+    }
+  }
+  return result;
+}
+
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<AllSettings>(DEFAULT_SETTINGS);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load settings on mount
   useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const stored = await StorageService.getSecureItem(STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored) as Partial<AllSettings>;
+          setSettings((prev) => deepMerge(prev, parsed));
+        }
+      } catch {
+        // Use defaults on error
+      } finally {
+        setIsLoading(false);
+      }
+    };
     loadSettings();
   }, []);
 
-  const loadSettings = async () => {
-    try {
-      const stored = await StorageService.getSecureItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as Partial<AllSettings>;
-        setSettings((prev) => deepMerge(prev, parsed));
-      }
-    } catch {
-      // Use defaults on error
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const persistSettings = async (updated: AllSettings) => {
+  const persistSettings = useCallback(async (updated: AllSettings) => {
     try {
       await StorageService.setSecureItem(STORAGE_KEY, JSON.stringify(updated));
     } catch {
-      // Silently fail persistence - settings still work in memory
+      // Settings still work in memory
     }
-  };
+  }, []);
 
   const updateNotificationSettings = useCallback(
     (updates: Partial<NotificationSettings>) => {
       setSettings((prev) => {
-        const updated = {
-          ...prev,
-          notifications: { ...prev.notifications, ...updates },
-        };
+        const updated = { ...prev, notifications: { ...prev.notifications, ...updates } };
         persistSettings(updated);
         return updated;
       });
     },
-    []
+    [persistSettings]
   );
 
   const updateSecuritySettings = useCallback(
     (updates: Partial<SecuritySettings>) => {
       setSettings((prev) => {
-        const updated = {
-          ...prev,
-          security: { ...prev.security, ...updates },
-        };
+        const updated = { ...prev, security: { ...prev.security, ...updates } };
         persistSettings(updated);
         return updated;
       });
     },
-    []
+    [persistSettings]
   );
 
   const updateDisplaySettings = useCallback(
     (updates: Partial<DisplaySettings>) => {
       setSettings((prev) => {
-        const updated = {
-          ...prev,
-          display: { ...prev.display, ...updates },
-        };
+        const updated = { ...prev, display: { ...prev.display, ...updates } };
         persistSettings(updated);
         return updated;
       });
     },
-    []
+    [persistSettings]
   );
 
   const updateAppSettings = useCallback(
     (updates: Partial<AppSettings>) => {
       setSettings((prev) => {
-        const updated = {
-          ...prev,
-          app: { ...prev.app, ...updates },
-        };
+        const updated = { ...prev, app: { ...prev.app, ...updates } };
         persistSettings(updated);
         return updated;
       });
     },
-    []
+    [persistSettings]
   );
 
   const resetSettings = useCallback(() => {
     setSettings(DEFAULT_SETTINGS);
     persistSettings(DEFAULT_SETTINGS);
-  }, []);
+  }, [persistSettings]);
 
   const value: SettingsContextValue = {
     settings,
@@ -182,26 +189,4 @@ export function useSettings(): SettingsContextValue {
     throw new Error('useSettings must be used within a SettingsProvider');
   }
   return context;
-}
-
-// Deep merge utility for settings
-function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial<T>): T {
-  const result = { ...target };
-  for (const key in source) {
-    if (
-      source[key] &&
-      typeof source[key] === 'object' &&
-      !Array.isArray(source[key]) &&
-      target[key] &&
-      typeof target[key] === 'object'
-    ) {
-      (result as Record<string, unknown>)[key] = deepMerge(
-        target[key] as Record<string, unknown>,
-        source[key] as Record<string, unknown>
-      );
-    } else if (source[key] !== undefined) {
-      result[key] = source[key] as T[Extract<keyof T, string>];
-    }
-  }
-  return result;
 }

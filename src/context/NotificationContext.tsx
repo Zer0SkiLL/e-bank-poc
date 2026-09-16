@@ -7,8 +7,8 @@ export interface Notification {
   type: NotificationType;
   title: string;
   message: string;
-  duration?: number; // ms, default 4000
-  dismissable?: boolean; // default true
+  duration?: number;
+  dismissable?: boolean;
   timestamp: number;
 }
 
@@ -22,7 +22,7 @@ export interface ShowNotificationParams {
 
 export interface NotificationContextValue {
   notifications: Notification[];
-  show: (params: ShowNotificationParams) => string; // returns id
+  show: (params: ShowNotificationParams) => string;
   dismiss: (id: string) => void;
   clearAll: () => void;
   isVisible: boolean;
@@ -35,7 +35,7 @@ const MAX_NOTIFICATIONS = 5;
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const timersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   const dismiss = useCallback((id: string) => {
     const timer = timersRef.current.get(id);
@@ -63,7 +63,6 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       return updated.length > MAX_NOTIFICATIONS ? updated.slice(0, MAX_NOTIFICATIONS) : updated;
     });
 
-    // Auto-dismiss
     const duration = notification.duration ?? DEFAULT_DURATION;
     if (duration > 0) {
       const timer = setTimeout(() => {
