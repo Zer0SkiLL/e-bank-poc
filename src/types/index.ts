@@ -11,3 +11,6 @@ export {
   PaymentsStackParamList,
   SettingsStackParamList,
 } from './navigation';
+export * from './design-system';
+export * from './theme';
+export * from './components';
